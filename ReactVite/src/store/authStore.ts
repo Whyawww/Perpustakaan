@@ -1,26 +1,23 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export interface User {
-  id: string;
-  nama: string;
-  role: string;
-}
-
 interface AuthState {
-  user: User | null;
+  username: string | null;
   token: string | null;
-  setAuth: (user: User, token: string) => void;
+  refreshToken: string | null;
+  setAuth: (username: string, token: string, refreshToken: string) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,
+      username: null,
       token: null,
-      setAuth: (user, token) => set({ user, token }),
-      logout: () => set({ user: null, token: null }),
+      refreshToken: null,
+      setAuth: (username, token, refreshToken) =>
+        set({ username, token, refreshToken }),
+      logout: () => set({ username: null, token: null, refreshToken: null }),
     }),
     {
       name: "auth-storage",
